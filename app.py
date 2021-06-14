@@ -1,5 +1,5 @@
 import torch
-from LYTNetV2 import LYTNetV2
+import onnxruntime
 import numpy as np
 from PIL import Image
 from io import BytesIO
@@ -7,10 +7,9 @@ from flask import Flask,request,jsonify,render_template
 import os
 import sys
 import base64
+import time
 
-model=LYTNetV2()
-model.load_state_dict(torch.load('model.pt', map_location=torch.device('cpu')))
-model.eval()
+ort_session = onnxruntime.InferenceSession("onnx_model.onnx")
 
 classes = {'0':'red', '1':'green', '2':'countdown_green', '3':'countdown_blank', '4':'none'}
 
@@ -45,12 +44,15 @@ def predict():
 	pix = torch.Tensor(pix).type(torch.FloatTensor)
 	pix = pix.unsqueeze(0)
 	pix = pix.view([1,-1,h,w])
+	start_time = time.time()
+	ort_inputs = {ort_session.get_inputs()[0].name: pix.cpu().numpy()}
+	ort_outputs = ort_session.run(None, ort_inputs)
+	print("--- %s seconds ---" % (time.time() - start_time), file=sys.stderr)
 
-	pred_classes, pred_direc = model(pix)
-	_, predicted = torch.max(pred_classes, 1)
-
-	predicted_id = str(predicted.cpu().numpy()[0])
-	points = pred_direc.cpu().detach().numpy()[0].tolist()
+	pred_classes = ort_outputs[0][0]
+	pred_direc = ort_outputs[1]
+	predicted_id = str(np.where(pred_classes == np.amax(pred_classes))[0][0])
+	points = pred_direc[0].tolist()
 	
 	return jsonify({ "class" : predicted_id, "points" : points })
     
