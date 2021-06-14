@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+  padding: 1em;
+}
+
+canvas {
+  position: absolute;
+  /*
+  margin: 0 0 20px 0;
+  top: 0;
+  */
+  left: 1em;
+  z-index: 10;
+  background-color:rgba(0,0,0,0);
+}
+
+html {
+  /* avoid annoying page width change
+  when moving from the home page */
+  overflow-y: scroll;
+}
+
+div.outputSelector {
+  margin: -1.3em 0 2em 0;
+}
+
+video {
+  background: #222;
+  /* margin: 0 0 20px 0; */
+  --width: 100%;
+  width: var(--width);
+  height: calc(var(--width) * 0.75);
+}
