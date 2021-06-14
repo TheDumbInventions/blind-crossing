@@ -1,9 +1,12 @@
 window.onload = function(){ 
-const video = document.getElementById("camera"); //$("#camera");
-const canvas = window.canvas = document.getElementById("videoCanvas"); //$("#result");
+const video = document.getElementById("camera");
+const canvas = window.canvas = document.getElementById("videoCanvas");
 const canvas_ctx = canvas.getContext('2d');
-const result = document.getElementById("result"); //$("#result");
+const result = document.getElementById("result");
 
+const forward_sound = new Audio('./static/js/audio/dritto.mp3');
+const dx_sound = new Audio('./static/js/audio/destra.mp3');
+const sx_sound = new Audio('./static/js/audio/sinistra.mp3');
 const classes = ['red', 'green', 'countdown_green', 'countdown_blank', 'none'];
 
 canvas.width = 768;
@@ -14,17 +17,27 @@ video.onplay = function() {
 };
 
 function updateDirection(points) {
-  //canvas.width = video.videoWidth;
-  //canvas.height = video.videoHeight;
   canvas.width = video.offsetWidth;
   canvas.height = video.offsetHeight;
-  //canvas_ctx.drawImage(tmpcanvas, 0, 0, canvas.width, canvas.height);
   canvas_ctx.strokeStyle = "#FF0000";
   canvas_ctx.lineWidth = 5;
   canvas_ctx.beginPath();
   canvas_ctx.moveTo(points[0]*canvas.width, points[1]*canvas.height);
   canvas_ctx.lineTo(points[2]*canvas.width, points[3]*canvas.height);
   canvas_ctx.stroke();
+  var m = (canvas.height/canvas.width) * (points[3] - points[1])/(points[2] - points[0]);
+  if(m < 8 && m > 0){
+  	sx_sound.play();
+  }else if(m > -8 && m < 0){
+  	dx_sound.play();
+  }
+  else if(m > -1000 && m < 0){
+  	//forward_sound.play();
+  }
+  else if(m < 1000 && m < 0){
+  	//forward_sound.play();
+  }
+  //console.log(m);
   setTimeout(updateRequest , 50);
 }
 
@@ -46,18 +59,21 @@ function updateRequest() {
     success: function(data) {
        updateDirection(data['points']);
        result.textContent = classes[data['class']];
-       console.log(data['class']);
+       //console.log(data['class']);
     }
   })
 }
 
 const constraints = {
   audio: false,
+
   video: {
     facingMode: {
       exact: 'environment'
     }
   }
+  
+  //video: true
 };
 
 function handleSuccess(stream) {
