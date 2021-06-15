@@ -3,12 +3,13 @@ body {
   padding: 1em;
 }
 
-canvas {
+canvas#sem_canvas {
+  background-color: rgba(50,50,50,1);
+  max-width: 100%;
+}
+
+canvas#videoCanvas {
   position: absolute;
-  /*
-  margin: 0 0 20px 0;
-  top: 0;
-  */
   left: 1em;
   z-index: 10;
   background-color:rgba(0,0,0,0);

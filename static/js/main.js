@@ -1,8 +1,9 @@
 window.onload = function(){ 
 const video = document.getElementById("camera");
-const canvas = window.canvas = document.getElementById("videoCanvas");
+const canvas = document.getElementById("videoCanvas");
 const canvas_ctx = canvas.getContext('2d');
-const result = document.getElementById("result");
+const sem_canvas = document.getElementById("sem_canvas");
+const sem_canvas_ctx = sem_canvas.getContext('2d');
 
 const yellow_sound = new Audio('./static/js/audio/giallo.mp3');
 const red_sound = new Audio('./static/js/audio/rosso.mp3');
@@ -11,8 +12,8 @@ const dx_sound = new Audio('./static/js/audio/destra.mp3');
 const sx_sound = new Audio('./static/js/audio/sinistra.mp3');
 const classes = ['red', 'green', 'countdown_green', 'countdown_blank', 'none'];
 
-const SEM_AVG = 10;
-const POINTS_AVG = 5;
+const SEM_AVG = 6;
+const POINTS_AVG = 2;
 
 var points_buff = zeros(POINTS_AVG, 4);
 var points = [0, 0, 0, 0];
@@ -23,10 +24,28 @@ var points_iter = 0;
 
 canvas.width = 768;
 canvas.height = 576;
+sem_canvas.width = 768;
+sem_canvas.height = sem_canvas.width/5;
 
 video.onplay = function() {
   setTimeout(updateRequest, 300);
+ 
+  sem_canvas.width = video.offsetWidth;
+  sem_canvas.height = sem_canvas.width/5;
 };
+
+window.addEventListener('resize', function(event){
+  canvas.width = video.offsetWidth;
+  canvas.height = video.offsetHeight;
+  sem_canvas.width = video.offsetWidth;
+  sem_canvas.height = sem_canvas.width/5;
+  sem_canvas_ctx.fillStyle = "#666666";
+  sem_canvas_ctx.beginPath();
+  sem_canvas_ctx.arc(sem_canvas.width*3/4, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
+  sem_canvas_ctx.arc(sem_canvas.width/2, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
+  sem_canvas_ctx.arc(sem_canvas.width/4, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
+  sem_canvas_ctx.fill();
+});
 
 function updateDirection() {
   canvas.width = video.offsetWidth;
@@ -53,15 +72,49 @@ function updateDirection() {
   //console.log(m);
   */
   
-  if(points[0] < 0.4){
+  if(points[0] < 0.42){
   	sx_sound.play();
-  }else if(points[0] > 0.6){
+  }else if(points[0] > 0.58){
   	dx_sound.play();
   }else{
   	forward_sound.play();
   }
 
   //setTimeout(updateRequest , 50);
+}
+
+function updateSemaphore() {
+  //sem_canvas.width = video.offsetWidth;
+  //sem_canvas.height = sem_canvas.width/5;
+  
+  sem_canvas_ctx.fillStyle = "#666666";
+  sem_canvas_ctx.beginPath();
+  sem_canvas_ctx.arc(sem_canvas.width*3/4, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
+  sem_canvas_ctx.arc(sem_canvas.width/2, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
+  sem_canvas_ctx.arc(sem_canvas.width/4, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
+  sem_canvas_ctx.fill();
+  
+  if(sem == 0) {
+  	// red
+  	sem_canvas_ctx.fillStyle = "#ff0000";
+  	sem_canvas_ctx.beginPath();
+  	sem_canvas_ctx.arc(sem_canvas.width*3/4, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
+  	sem_canvas_ctx.fill();
+  } else if(sem == 2 || sem == 3) { 
+  	// yellow
+  	sem_canvas_ctx.fillStyle = "#ffff00";
+  	sem_canvas_ctx.beginPath();
+ 	sem_canvas_ctx.arc(sem_canvas.width/2, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
+  	sem_canvas_ctx.fill();
+  } else if(sem == 1) { 
+  	// green
+  	sem_canvas_ctx.fillStyle = "#00ff00";
+  	sem_canvas_ctx.beginPath();
+  	sem_canvas_ctx.arc(sem_canvas.width/4, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
+  	sem_canvas_ctx.fill();
+  }
+  //result.textContent = classes[sem];
+  console.log(sem_rec);
 }
 
 function updateRequest() {
@@ -88,8 +141,7 @@ function updateRequest() {
        {
          sem_iter = 0;
   		 sem = sem_rec.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
-  		 result.textContent = classes[sem];
-  		 console.log(sem_rec);
+  		 updateSemaphore();
   		 sem_rec = [0, 0, 0, 0, 0];
        }
        
@@ -113,7 +165,7 @@ function updateRequest() {
   		 points[1] /= POINTS_AVG;
   		 points[2] /= POINTS_AVG;
   		 points[3] /= POINTS_AVG;
-  		 
+  		 /*
   		 if(sem == 0){
   		 	red_sound.play();
   		 }
@@ -124,10 +176,17 @@ function updateRequest() {
          else {
          	updateDirection();
          }
+         */
+         if(sem == 0){
+  		 	red_sound.play();
+  		 }
+  		 else if(sem == 2 || sem == 3){
+         	yellow_sound.play();
+         }
+         updateDirection();
        }
        
        updateRequest();
-       //result.textContent = classes[data['class']];
        //console.log(data['class']);
     }
   })
