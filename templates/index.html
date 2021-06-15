@@ -20,6 +20,18 @@
 	<canvas id="videoCanvas"></canvas>
 </div>
 	<canvas id="sem_canvas" width="20vw" height="20vw" ></canvas>
+	<form>
+		<label for="SEM_AVG">Numero di campioni utilizzati per il semaforo:</label><br>
+		<div class="value-button" id="decreaseSem">-</div>
+			<input readonly type="number" id="SEM_AVG" value="6" />
+		<div class="value-button" id="increaseSem">+</div>
+	</form>
+	<form>
+		<label for="POINTS_AVG">Numero di campioni utilizzati per le striscie:</label><br>
+		<div class="value-button" id="decreasePoints">-</div>
+			<input readonly type="number" id="POINTS_AVG" value="2" />
+		<div class="value-button" id="increasePoints">+</div>
+	</form>
 
 </body>
 </html>

@@ -1,9 +1,12 @@
-window.onload = function(){ 
+window.onload = function(){
+//alert("ATTENZIONE: NON USARE PER DAVVERO")
 const video = document.getElementById("camera");
 const canvas = document.getElementById("videoCanvas");
 const canvas_ctx = canvas.getContext('2d');
 const sem_canvas = document.getElementById("sem_canvas");
 const sem_canvas_ctx = sem_canvas.getContext('2d');
+const sem_avg_el = document.getElementById("SEM_AVG");
+const points_avg_el = document.getElementById("POINTS_AVG");
 
 const yellow_sound = new Audio('./static/js/audio/giallo.mp3');
 const red_sound = new Audio('./static/js/audio/rosso.mp3');
@@ -12,8 +15,13 @@ const dx_sound = new Audio('./static/js/audio/destra.mp3');
 const sx_sound = new Audio('./static/js/audio/sinistra.mp3');
 const classes = ['red', 'green', 'countdown_green', 'countdown_blank', 'none'];
 
-const SEM_AVG = 6;
-const POINTS_AVG = 2;
+document.getElementById("decreaseSem").addEventListener('click', decreaseValueSem);
+document.getElementById("increaseSem").addEventListener('click', increaseValueSem);
+document.getElementById("decreasePoints").addEventListener('click', decreaseValuePoints);
+document.getElementById("increasePoints").addEventListener('click', increaseValuePoints);
+
+var SEM_AVG = parseInt(sem_avg_el.value, 10);
+var POINTS_AVG = parseInt(points_avg_el.value, 10);
 
 var points_buff = zeros(POINTS_AVG, 4);
 var points = [0, 0, 0, 0];
@@ -190,6 +198,50 @@ function updateRequest() {
        //console.log(data['class']);
     }
   })
+}
+
+function increaseValueSem() {
+  var value = parseInt(sem_avg_el.value, 10);
+  value = isNaN(value) ? 0 : value;
+  value++;
+  value > 20 ? value = 20 : '';
+  sem_avg_el.value = value;
+  sem_iter = 0;
+  sem_rec = [0, 0, 0, 0, 0];
+  SEM_AVG = value;
+}
+
+function decreaseValueSem() {
+  var value = parseInt(sem_avg_el.value, 10);
+  value = isNaN(value) ? 0 : value;
+  value--;
+  value < 1 ? value = 1 : '';
+  sem_avg_el.value = value;
+  sem_iter = 0;
+  sem_rec = [0, 0, 0, 0, 0];
+  SEM_AVG = value;
+}
+
+function increaseValuePoints() {
+  var value = parseInt(points_avg_el.value, 10);
+  value = isNaN(value) ? 0 : value;
+  value++;
+  value > 20 ? value = 20 : '';
+  points_avg_el.value = value;
+  points_iter = 0;
+  points_buff = zeros(value, 4);
+  POINTS_AVG = value;
+}
+
+function decreaseValuePoints() {
+  var value = parseInt(points_avg_el.value, 10);
+  value = isNaN(value) ? 0 : value;
+  value--;
+  value < 1 ? value = 1 : '';
+  points_avg_el.value = value;
+  points_iter = 0;
+  points_buff = zeros(value, 4);
+  POINTS_AVG = value;
 }
 
 function zeros(dimensions) {
