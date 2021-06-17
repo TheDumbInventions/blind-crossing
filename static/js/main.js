@@ -256,14 +256,14 @@ function zeros(dimensions) {
 
 const constraints = {
   audio: false,
-
+/*
   video: {
     facingMode: {
       exact: 'environment'
     }
   }
-
-  //video: true
+*/
+  video: true
 };
 
 function handleSuccess(stream) {
