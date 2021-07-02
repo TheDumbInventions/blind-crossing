@@ -1,5 +1,5 @@
 window.onload = function(){
-//alert("ATTENZIONE: NON USARE PER DAVVERO")
+alert("ATTENZIONE: QUESTA E' SOLO UNA DEMO! L'app deve essere utilizzata SOLO a scopo dimostrativo. Un utilizzo reale è PERICOLOSO E DEVE ESSERE EVITATO!")
 const video = document.getElementById("camera");
 const canvas = document.getElementById("videoCanvas");
 const canvas_ctx = canvas.getContext('2d');
@@ -64,21 +64,6 @@ function updateDirection() {
   canvas_ctx.moveTo(points[0]*canvas.width, points[1]*canvas.height);
   canvas_ctx.lineTo(points[2]*canvas.width, points[3]*canvas.height);
   canvas_ctx.stroke();
-  /*
-  var m = (canvas.height/canvas.width) * (points[3] - points[1])/(points[2] - points[0]);
-  if(m < 8 && m > 0){
-  	sx_sound.play();
-  }else if(m > -8 && m < 0){
-  	dx_sound.play();
-  }
-  else if(m > -1000 && m < 0){
-  	//forward_sound.play();
-  }
-  else if(m < 1000 && m < 0){
-  	//forward_sound.play();
-  }
-  //console.log(m);
-  */
   
   if(points[0] < 0.42){
   	sx_sound.play();
@@ -87,14 +72,9 @@ function updateDirection() {
   }else{
   	forward_sound.play();
   }
-
-  //setTimeout(updateRequest , 50);
 }
 
 function updateSemaphore() {
-  //sem_canvas.width = video.offsetWidth;
-  //sem_canvas.height = sem_canvas.width/5;
-  
   sem_canvas_ctx.fillStyle = "#666666";
   sem_canvas_ctx.beginPath();
   sem_canvas_ctx.arc(sem_canvas.width*3/4, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
@@ -121,7 +101,6 @@ function updateSemaphore() {
   	sem_canvas_ctx.arc(sem_canvas.width/4, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
   	sem_canvas_ctx.fill();
   }
-  //result.textContent = classes[sem];
   console.log(sem_rec);
 }
 
@@ -161,7 +140,6 @@ function updateRequest() {
        {
          points_iter = 0;
          points = [0, 0, 0, 0];
-         //console.log(points_buff);
          var i;
 		 for (i = 0; i < POINTS_AVG; i++) {
   		    points[0] += points_buff[i][0];
@@ -195,7 +173,6 @@ function updateRequest() {
        }
        
        updateRequest();
-       //console.log(data['class']);
     }
   })
 }
@@ -256,18 +233,18 @@ function zeros(dimensions) {
 
 const constraints = {
   audio: false,
-/*
+
   video: {
     facingMode: {
       exact: 'environment'
     }
   }
-*/
-  video: true
+
+  //video: true
 };
 
 function handleSuccess(stream) {
-  window.stream = stream; // make stream available to browser console
+  window.stream = stream;
   video.srcObject = stream;
 }
 
