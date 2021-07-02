@@ -1,7 +1,7 @@
 # Blind Crossing
 
 ## Descrizione
-**ATTENZIONE: L'APP E' ANCORA IN FASE DI SVILUPPO, VA USATA CON CAUTELA E SOLO PER SCOPI DIMOSTRATIVI!**
+_**ATTENZIONE: L'APP E' ANCORA IN FASE DI SVILUPPO, VA USATA CON CAUTELA E SOLO PER SCOPI DIMOSTRATIVI!**_
 
 Questa web-app permette di aiutare le persone non vedenti ad attraversare la strada quando non è presente alcun segnalatore acustico. Una voce digitale indicherà la direzione da prendere per seguire le strisce pedonali e avviserà l'utente se il semaforo sta cambiando colore.
 
