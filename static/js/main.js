@@ -236,7 +236,7 @@ const constraints = {
 
   video: {
     facingMode: {
-      exact: 'environment'
+      exact: 'user' //'environment'
     }
   }
 
@@ -249,7 +249,7 @@ function handleSuccess(stream) {
 }
 
 function handleError(error) {
-  console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
+  console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);	// mediaDevices API unsupported
 }
 
 navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
