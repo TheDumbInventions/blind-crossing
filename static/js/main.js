@@ -235,9 +235,10 @@ const constraints = {
   audio: false,
 
   video: {
-    facingMode: {
-      exact: 'user' //'environment'
-    }
+    facingMode: 'environment'	// if is present use rear camera
+    //facingMode: {
+    //  exact: 'environment'	// use always rear camera, black screen if is not present
+    //}
   }
 
   //video: true
