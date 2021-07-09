@@ -1,5 +1,6 @@
 window.onload = function(){
-alert("ATTENZIONE: QUESTA E' SOLO UNA DEMO! L'app deve essere utilizzata SOLO a scopo dimostrativo. Un utilizzo reale è PERICOLOSO E DEVE ESSERE EVITATO!")
+//alert("ATTENZIONE: QUESTA E' SOLO UNA DEMO! L'app deve essere utilizzata SOLO a scopo dimostrativo. Un utilizzo reale è PERICOLOSO E DEVE ESSERE EVITATO!")
+while(confirm("ATTENZIONE: QUESTA E' SOLO UNA DEMO! L'app deve essere utilizzata SOLO a scopo dimostrativo. Un utilizzo reale è PERICOLOSO E DEVE ESSERE EVITATO!"));
 const video = document.getElementById("camera");
 const canvas = document.getElementById("videoCanvas");
 const canvas_ctx = canvas.getContext('2d');
@@ -240,8 +241,6 @@ const constraints = {
     //  exact: 'environment'	// use always rear camera, black screen if is not present
     //}
   }
-
-  //video: true
 };
 
 function handleSuccess(stream) {
