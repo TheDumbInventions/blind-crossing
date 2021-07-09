@@ -1,6 +1,5 @@
 window.onload = function(){
-//alert("ATTENZIONE: QUESTA E' SOLO UNA DEMO! L'app deve essere utilizzata SOLO a scopo dimostrativo. Un utilizzo reale è PERICOLOSO E DEVE ESSERE EVITATO!")
-while(confirm("ATTENZIONE: QUESTA E' SOLO UNA DEMO! L'app deve essere utilizzata SOLO a scopo dimostrativo. Un utilizzo reale è PERICOLOSO E DEVE ESSERE EVITATO!"));
+while(!confirm("ATTENZIONE: QUESTA E' SOLO UNA DEMO! L'app deve essere utilizzata SOLO a scopo dimostrativo. Un utilizzo reale è PERICOLOSO E DEVE ESSERE EVITATO!"));
 const video = document.getElementById("camera");
 const canvas = document.getElementById("videoCanvas");
 const canvas_ctx = canvas.getContext('2d');
