@@ -20,23 +20,11 @@ def render_page():
 	return render_template('index.html')
 
 @app.route('/predict',methods=['POST'])
-def predict():
-	#file = request.files['file']
-	#image_bytes = file.read()
-	#im = Image.open(BytesIO(image_bytes))
-	
+def predict():	
 	image64 = request.json['image']
-	#image64 = image64.split(';')[1]
 	image64 = image64.split(',')[1]
-	#print(image64, file=sys.stderr)
 	im = Image.open(BytesIO(base64.b64decode(image64))).convert('RGB')
 	
-	#image64 = request.json['image']
-	#im = Image.open(BytesIO(base64.decodebytes(image64.split(',')[1].encode()))).convert('RGB')
-	
-	#im = Image.open(base64.decodebytes(image64.encode('utf-8')))
-	#im=im.rotate(-90, expand=False)
-	#im.show()
 	w, h = 768, 576
 	im = im.resize((w, h))
 	
@@ -44,10 +32,10 @@ def predict():
 	pix = torch.Tensor(pix).type(torch.FloatTensor)
 	pix = pix.unsqueeze(0)
 	pix = pix.view([1,-1,h,w])
-	start_time = time.time()
+	#start_time = time.time()
 	ort_inputs = {ort_session.get_inputs()[0].name: pix.cpu().numpy()}
 	ort_outputs = ort_session.run(None, ort_inputs)
-	print("--- %s seconds ---" % (time.time() - start_time), file=sys.stderr)
+	#print("--- %s seconds ---" % (time.time() - start_time), file=sys.stderr)
 
 	pred_classes = ort_outputs[0][0]
 	pred_direc = ort_outputs[1]
