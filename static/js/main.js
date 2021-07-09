@@ -1,5 +1,5 @@
 window.onload = function(){
-while(!confirm("ATTENZIONE: QUESTA E' SOLO UNA DEMO! L'app deve essere utilizzata SOLO a scopo dimostrativo. Un utilizzo reale è PERICOLOSO E DEVE ESSERE EVITATO!"));
+if(!alert("ATTENZIONE: QUESTA E' SOLO UNA DEMO! L'app deve essere utilizzata SOLO a scopo dimostrativo. Un utilizzo reale è PERICOLOSO E DEVE ESSERE EVITATO!"));
 const video = document.getElementById("camera");
 const canvas = document.getElementById("videoCanvas");
 const canvas_ctx = canvas.getContext('2d');
@@ -101,7 +101,6 @@ function updateSemaphore() {
   	sem_canvas_ctx.arc(sem_canvas.width/4, sem_canvas.height/2, sem_canvas.height/2.5, 0, 2 * Math.PI);
   	sem_canvas_ctx.fill();
   }
-  console.log(sem_rec);
 }
 
 function updateRequest() {
@@ -249,6 +248,7 @@ function handleSuccess(stream) {
 
 function handleError(error) {
   console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);	// mediaDevices API unsupported
+  alert("Browser non compatibile!")
 }
 
 navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
