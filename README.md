@@ -11,7 +11,7 @@ Un rigraziamento agli autori di [questo modello di machine learning](https://git
 https://blind-crossing.herokuapp.com/
 
 ## Link al video su YouTube
-
+https://youtu.be/MjVYAn-AGVY
 
 ## References
 [LYTNet: A Convolutional Neural Network for Real-Time Pedestrian Traffic Lights and Zebra Crossing Recognition for the Visually Impaired](https://arxiv.org/abs/1907.09706)
